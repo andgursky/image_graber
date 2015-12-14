@@ -8,7 +8,6 @@ module Graber
                     image.download(image, argument)
                 }
             }
-            binding.pry
         end
     end
 end

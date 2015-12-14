@@ -20,8 +20,6 @@ module Graber
                     @img_path            = arr[1]
                     @img_name   = Parser.get_image_name(@img_path)
                     @img_format = Parser.get_img_format(@img_path, self)
-                else
-                    binding.pry
                 end
             else
                 @img_format = Parser.get_img_format(declarations, self)
@@ -47,15 +45,11 @@ module Graber
         def base64_uri_save_as_file(decoded_uri, img_obj, arg_obj)
             Dir.mkdir(arg_obj.path) unless File.exists?(arg_obj.path)
             File.write(arg_obj.path+"/"+img_obj.img_name.to_s+"."+img_obj.img_format, decoded_uri.data)
-            #@img_name_by_counter += 1
-            p "base64 img saving"
         end
 
         def link_encoded_uri_save_as_file(decoded_uri, img_obj, arg_obj)
             Dir.mkdir(arg_obj.path)unless File.exists?(arg_obj.path)
-            File.write(arg_obj.path+"/"+img_obj.img_name.to_s+"."+img_obj.img_format, decoded_uri)#decoded_uri.data!!! maybe!!
-            #@img_name_by_counter += 1
-            p "url img saving"
+            File.write(arg_obj.path+"/"+img_obj.img_name.to_s+"."+img_obj.img_format, decoded_uri)
         end
 
         def direct_link_save_as_file(path, img_obj, arg_obj)
@@ -66,7 +60,6 @@ module Graber
             File.open("#{arg_obj.path}/#{img_obj.img_name}.#{img_obj.img_format}", 'wb') {|file| 
                 file.write(open(path).read)
             }
-            p "direct link img saving"
         end
     end
 end

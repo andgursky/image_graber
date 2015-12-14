@@ -1,5 +1,6 @@
 
 module Graber
+    
 	class Parser 
         attr_accessor :url, :img_folder, :img_hash
         
@@ -35,7 +36,6 @@ module Graber
                   @img_obj_counter += 1 
                 end
             end	
-            binding.pry
         end
     
         def right_declarations?(declarations)
@@ -125,7 +125,7 @@ module Graber
                 arr[1] = uri.path
                 return arr
             else
-                binding.pry
+                puts "uri.schmee or uri.host == nil"
             end
         end
     end
