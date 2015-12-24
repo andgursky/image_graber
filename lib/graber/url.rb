@@ -30,14 +30,14 @@ module Graber
             return "#{url_split[0]}://www.#{url_split[2]}#{url_split[5]}" unless /^[http:\/\/|https:\/\/|\/\/]*w{3}\./=~url
         end
 
-        def self.remove_double_slashes_if_they_exists(url) #if url starts with one slash, it's mean, that before slash must be host name
+        def self.remove_double_slashes_if_they_exists(url) #if url starts with one slash, it's means, that before slash must be host name
             str = ""
             url.gsub(/(?<=[\/\/])[^\/].*/){|x|
                 str =  x}
             return str ? str : url
         end
         
-        def self.is_it_uri_path?(url)
+        def self.is_it_uri_path?(url) #if this is path (/photos/1.jpg = true) else url (//google.com)
            pattern_single_slash = /^\//
            pattern_double_slash = /^\/\//
            if(pattern_single_slash =~ url && !(pattern_double_slash =~ url))
