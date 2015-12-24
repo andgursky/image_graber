@@ -29,6 +29,7 @@ module Graber
         def parse
             parser = Parser.new(self.argument.url, self.argument.path)
             parser.css_file_searching_in_html
+            parser.img_searching_in_html
             self.images = parser.img_hash
         end
 

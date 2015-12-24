@@ -25,6 +25,11 @@ module Graber
             end
         end
 
+        def self.add_www_to_url(url)
+            url_split = URI::split(url)
+            return "#{url_split[0]}://www.#{url_split[2]}#{url_split[5]}" unless /^[http:\/\/|https:\/\/|\/\/]*w{3}\./=~url
+        end
+
         def self.remove_double_slashes_if_they_exists(url) #if url starts with one slash, it's mean, that before slash must be host name
             str = ""
             url.gsub(/(?<=[\/\/])[^\/].*/){|x|
@@ -40,6 +45,20 @@ module Graber
            else
                return false
            end
+        end
+
+
+        def self.redirections_scheme(url)
+            pattern = /^.+(?=\:\/\/)/
+            uri_splited = URI::split(url)
+
+            url.gsub(pattern){|x|
+                if(x=="http")
+                    return "https://#{uri_splited[2]}"
+                else
+                    return "http://#{uri_splited[2]}"
+                end
+            }
         end
     end
 end
