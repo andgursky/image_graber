@@ -65,24 +65,20 @@ module Graber
                     img_obj.img_name = Parser.shorten_the_name_if_needed(img_obj.img_name)
                     retry
                 rescue Exception => e
-                    puts "!!!ATTENTION!!! file: '#{img_obj.data_uri}' couldn't be downloaded by reason: '#{e}'"
+                    puts "==> File: '#{img_obj.data_uri}' couldn't be downloaded by reason: '#{e}'"
                     @negative_counter += 1
                 end
             end
         end
         
-        def remove_file(file)
-            begin
-                File.delete(file)
-            rescue Errno::ENOENT => e
+        def remove_file(file_path)
+            #begin
+                File.delete(file_path)
+            #rescue Errno::ENOENT => e
                 #no such file or directory
-            end
+            #end
         end
 
-        def self.get_negative_counter
-            return @negative_counter
-        end
-                
         def base64_uri_save_as_file(decoded_uri, img_obj, arg_obj)
             Dir.mkdir(arg_obj.path) unless File.exists?(arg_obj.path)
             File.write(arg_obj.path+"/"+img_obj.img_name.to_s+"."+img_obj.img_format, decoded_uri.data)
@@ -95,8 +91,8 @@ module Graber
 
         def direct_link_save_as_file(path, img_obj, arg_obj)
             Dir.mkdir(arg_obj.path)unless File.exists?(arg_obj.path)
-            #if folder creation was successfuly, then
-            # saving file from direct link
+            #if folder creation was successfuly finished, then
+            #I am saving file from direct link
             File.open("#{arg_obj.path}/#{img_obj.img_name}.#{img_obj.img_format}", 'wb') {|file| 
                 file.write(open(path).read)
             }

@@ -19,27 +19,27 @@ describe Graber::URL do
         expect(Graber::URL.contain_http?("https://test.com")).to be true
     end
 
-    it 'should normalize url without http' do
+    it 'normalize url without http' do
         expect(Graber::URL.normalize("www.test.com")).to eql("http://www.test.com")
     end
 
-    it 'should not normalize url with http' do
+    it 'not normalize url with http' do
         expect(Graber::URL.normalize("http://www.test.com")).to eql("http://www.test.com")
     end
 
-    it 'should not normalize url with https' do
+    it 'not normalize url with https' do
         expect(Graber::URL.normalize("https://www.test.com")).to eql("https://www.test.com")
     end
 
-    it 'should remove \\n and \\r from string' do
+    it 'removes \\n and \\r from string' do
         expect(Graber::URL.remove_new_line_symbols!("https://www.te\nst.c\rom")).to eql("https://www.test.com")
     end
 
-    it 'should add www to url' do
+    it 'adding www to url' do
         expect(Graber::URL.add_www_to_url('http://test.com')).to eql('http://www.test.com')
     end
 
-    it 'should remove double slashes at the begining of url' do
+    it 'removes double slashes at the begining of url' do
         expect(Graber::URL.remove_double_slashes_if_they_exists('//test.com/index.html')).to eql('test.com/index.html')
     end
 
@@ -59,17 +59,15 @@ describe Graber::URL do
         expect(Graber::URL.redirections_scheme('https://test.com')).to eql('http://test.com') 
     end
 
-    it 'should add url scheme and host to url path' do
+    it 'adding url scheme and host to url path' do
         expect(Graber::URL.normalize_url_with_scheme_and_host('/path/pic.png', @url_scheme)).to eql('http://www.test.com/path/pic.png') 
     end
 
-    it 'should return url if it is not path' do
+    it 'returning url if it is not path' do
         expect(Graber::URL.normalize_url_with_scheme_and_host('http://test.com/path/pic.png', @url_scheme)).to eql('http://test.com/path/pic.png') 
     end
 
-    it 'should return url with http if it is not path and it has not http or https url scheme' do
+    it 'returns url with http if it is not path and it has not http or https url scheme' do
         expect(Graber::URL.normalize_url_with_scheme_and_host('//test.com/path/pic.png', @url_scheme)).to eql('http://test.com/path/pic.png') 
     end
-
-
 end
