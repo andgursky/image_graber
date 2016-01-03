@@ -7,12 +7,13 @@ module Graber
         "meta"=>"content"}
         AGENT          = {"User-Agent"=>"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0,2490.80 Safari/537.36"}
 
-        attr_accessor :url, :img_folder, :img_hash
+        attr_accessor :url, :img_folder, :img_hash 
 
 		def initialize(url, img_folder)
             begin
-                @url        = open(url, AGENT)
-                @html       = Nokogiri::HTML(@url)
+                @arg_url    = url
+                #@url        = open_url
+                #@html       = Nokogiri::HTML(@url)
                 @url_scheme = URI::split(url)
             rescue RuntimeError  => e
                 url = URL.redirections_scheme(url)
@@ -23,15 +24,15 @@ module Graber
             @img_obj_counter = 0
 		end
 
-		def css_file_searching_in_html
+        def css_file_searching_in_html
             STYLE_TAG_HASH.each {|style_tag, style_atr|
                 size = @html.css(style_tag).size
                 @html.search(style_tag).map {|l|
                     if style_atr
                         #if styles is in css file
                         css_url = l[style_atr] 
-                        css_url    = URL.normalize_url_with_scheme_and_host(css_url, @url_scheme) 
-                        css        = CssParser::Parser.new
+                        css_url = URL.normalize_url_with_scheme_and_host(css_url, @url_scheme) 
+                        css     = CssParser::Parser.new
                         begin
                             css.load_uri!(css_url)
                         rescue
@@ -102,8 +103,8 @@ module Graber
 		#	declaration.gsub(pattern) {|x| return x[1..-2]}
             case 
             when img_obj.base64_encoded_uri 
-                declarations.gsub(/[\(|\"|\']data:image\/[^()]+(?=\"|\)|\')/){|x|
-                    return x[1..-2]}
+                declarations.gsub(/[\(|\"|\']data:image\/[^()]+(?=\"|\)|\')/){|x| 
+                    return x[1..-2]} 
             when img_obj.direct_link
                 declarations.gsub(/(?<=\(\"|\(\'|\()[^\"\'\(\)]+(?=\"\)|\'\)|\))/){|x| 
                     return x[0..-1]}
@@ -162,7 +163,6 @@ module Graber
             max_lenght = 255 / 4 
             if(name.size>max_lenght)
                 return name[-max_lenght, max_lenght]
-                binding.pry
             else
                 return name
             end
@@ -194,6 +194,14 @@ module Graber
             else
                 puts "uri.schmee or uri.host == nil"
             end
+        end
+
+        def open_url
+            open(@arg_url, AGENT)
+        end
+
+        def get_content
+            @html = Nokogiri::HTML(self.open_url)
         end
     end
 end 
