@@ -18,9 +18,9 @@ module Graber
             puts "The #{@counter} of them was successfuly downloaded"
         end
 
-        def self.remove_file(file)
+        def self.remove_file(file_path)
             begin
-                File.delete(file)
+                File.delete(file_path)
             rescue Errno::ENOENT => e
                 #no such file or directory
             end
