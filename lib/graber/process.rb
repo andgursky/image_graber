@@ -2,8 +2,9 @@
 #vi: set fileencoding=utf-8
 # core lib
 require 'net/http'
-# gems
 require 'open-uri'
+# gems
+require 'bundler/setup'
 require 'data_uri'
 require 'nokogiri'
 require 'css_parser'
@@ -28,6 +29,7 @@ module Graber
 
         def parse
             parser = Parser.new(self.argument.url, self.argument.path)
+            parser.get_content
             parser.css_file_searching_in_html
             parser.img_searching_in_html
             self.images = parser.img_hash

@@ -1,4 +1,4 @@
-require './lib/graber/process'
+require './graber/process'
 
 g = Graber::Process.new(ARGV[0], ARGV[1])
 g.parse
