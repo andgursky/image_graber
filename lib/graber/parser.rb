@@ -197,7 +197,12 @@ module Graber
         end
 
         def open_url
-            open(@arg_url, AGENT)
+            begin
+                open(@arg_url, AGENT)
+            rescue
+                @arg_url = URL.redirections_scheme(@arg_url)
+                retry
+            end
         end
 
         def get_content

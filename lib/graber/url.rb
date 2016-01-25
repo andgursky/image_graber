@@ -49,16 +49,12 @@ module Graber
 
 
         def self.redirections_scheme(url)
-            pattern = /^.+(?=\:\/\/)/
             uri_splited = URI::split(url)
-
-            url.gsub(pattern){|x|
-                if(x=="http")
-                    return "https://#{uri_splited[2]}"
-                else
-                    return "http://#{uri_splited[2]}"
-                end
-            }
+            if uri_splited[0]=="http"
+                return "https://#{uri_splited[2]}"
+            elsif uri_splited[0] || uri_splited[0]=="https" 
+                return "http://#{uri_splited[2]}"
+            end
         end
     end
 end
