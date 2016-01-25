@@ -2,8 +2,9 @@
 #vi: set fileencoding=utf-8
 # core lib
 require 'net/http'
-# gems
 require 'open-uri'
+# gems
+require 'bundler/setup'
 require 'data_uri'
 require 'nokogiri'
 require 'css_parser'
